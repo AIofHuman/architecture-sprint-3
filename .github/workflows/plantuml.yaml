@@ -31,6 +31,7 @@ jobs:
     - name: Generate Diagrams
       run: |
         echo "Running PlantUML..."
+        mkdir -p diagrams/{context,container,component,code}
         java -jar plantuml.jar -verbose diagrams/context/*.puml
         java -jar plantuml.jar -verbose diagrams/container/*.puml
         java -jar plantuml.jar -verbose diagrams/component/*.puml
