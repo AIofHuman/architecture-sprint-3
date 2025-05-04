@@ -13,10 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Debug Example
-      run: |
-        echo "This is a debug message"
-    
     - name: Checkout repository
       uses: actions/checkout@v4
 
@@ -31,7 +27,7 @@ jobs:
 
     - name: Generate Diagrams
       run: |
-        echo "Run generate diagramns"
+        echo "Run generate diagrams"
         plantuml -verbose diagrams/context/*.puml
         plantuml -verbose diagrams/container/*.puml
         plantuml -verbose diagrams/component/*.puml
