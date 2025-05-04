@@ -35,10 +35,10 @@ jobs:
         set -euo pipefail
         find diagrams/ -type f -name "*.puml"
         plantuml -checkonly -verbose diagrams/**/*.puml
-        plantuml diagrams/context/*.puml
-        plantuml diagrams/container/*.puml
-        plantuml diagrams/component/*.puml
-        plantuml diagrams/code/*.puml
+        plantuml -verbose diagrams/context/*.puml
+        plantuml -verbose diagrams/container/*.puml
+        plantuml -verbose diagrams/component/*.puml
+        plantuml -verbose diagrams/code/*.puml
     
     - name: Commit Diagrams
       run: |
