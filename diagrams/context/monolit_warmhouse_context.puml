@@ -1,0 +1,20 @@
+@startuml
+title WarmHouse Monolit Context Diagram
+
+top to bottom direction
+
+!include ../templates/C4_Container.puml
+
+Person(user, "User", "A user of the warmhouse service")
+Person(admin, "Administrator", "An administrator warmhouse service")
+System(WarmHouseSystem, "Warmhouse System", "Switch on/off home heating, temperature monitoring")
+
+System_Ext(heater_controler, "API", "API of heater controller")
+System_Ext(temperature_sensor, "API", "API of temperature sensor")
+
+Rel(user, WarmHouseSystem, "Uses the system")
+Rel(admin,WarmHouseSystem,"Manages the system")
+Rel(WarmHouseSystem,heater_controler,"Switch on/off heater")
+Rel(WarmHouseSystem,temperature_sensor,"Get current temperature of house")
+
+@enduml
