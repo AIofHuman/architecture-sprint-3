@@ -11,8 +11,12 @@ on:
 jobs:
   generate-diagrams:
     runs-on: ubuntu-latest
-
+    
     steps:
+    - name: Debug Example
+      run: |
+        echo "This is a debug message"
+    
     - name: Checkout repository
       uses: actions/checkout@v4
 
