@@ -3,18 +3,22 @@ title WarmHouse Monolit Context Diagram
 
 top to bottom direction
 
-!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
 Person(user, "User", "A user of the warmhouse service")
 Person(admin, "Administrator", "An administrator warmhouse service")
-System(WarmHouseSystem, "Warmhouse System", "Switch on/off home heating, temperature monitoring")
 
-System_Ext(heater_controler, "API", "API of heater controller")
-System_Ext(temperature_sensor, "API", "API of temperature sensor")
+System_Boundary(WarmHouseSystem, "Warmhouse System") {
+  System(heater, "Heater Controller", "Switch on/off home heating")
+  System(temp_sensor, "Temperature Sensor", "Monitors house temperature")
+}
+
+System_Ext(heater_controler, "Heater API", "External heater control API")
+System_Ext(temperature_sensor, "Sensor API", "External temperature API")
 
 Rel(user, WarmHouseSystem, "Uses the system")
-Rel(admin,WarmHouseSystem, "Manages the system")
-Rel(WarmHouseSystem,heater_controler, "Switch on/off heater")
-Rel(WarmHouseSystem,temperature_sensor, "Get current temperature of house")
+Rel(admin, WarmHouseSystem, "Manages the system")
+Rel(heater, heater_controler, "Switch on/off heater")
+Rel(temp_sensor, temperature_sensor, "Get current temperature")
 
 @enduml
