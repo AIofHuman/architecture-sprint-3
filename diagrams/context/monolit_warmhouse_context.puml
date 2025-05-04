@@ -13,8 +13,8 @@ System_Ext(heater_controler, "API", "API of heater controller")
 System_Ext(temperature_sensor, "API", "API of temperature sensor")
 
 Rel(user, WarmHouseSystem, "Uses the system")
-Rel(admin,WarmHouseSystem,"Manages the system")
-Rel(WarmHouseSystem,heater_controler,"Switch on/off heater")
-Rel(WarmHouseSystem,temperature_sensor,"Get current temperature of house")
+Rel(admin,WarmHouseSystem, "Manages the system")
+Rel(WarmHouseSystem,heater_controler, "Switch on/off heater")
+Rel(WarmHouseSystem,temperature_sensor, "Get current temperature of house")
 
 @enduml
