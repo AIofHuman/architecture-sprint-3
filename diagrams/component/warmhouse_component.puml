@@ -1,0 +1,42 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title WarmHome System
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User", "A user of the warmhouse service")
+Person(admin, "Administrator", "An administrator warmhouse service")
+
+System_Boundary(system, "Warmhome System") {
+    Container(user_iteraction, "User Iteraction", "", "Profile of home and scenarios")
+    Container(control_api, "Control API", "", "Central control logic and event processing")
+    ContainerQueue(kafka, "Message broker", "Apache Kafka", "Real-time event streaming")
+    Container(profile_home, "Profile home", "", "Collects of devices and sensors of home")
+    Container(telemetry, "Telemetry", "", "Telemetry from controlers and sensors")
+    Container(scenarios, "Scenarios", "", "Device operation scenarios")
+}
+
+System_Ext(devices, "Devices", "IoT devices")
+System_Ext(sensors, "Sensors", "IoT sensors")
+
+' User interactions
+Rel(user, user_iteraction, "Sends commands and get information to system", "HTTPS")
+Rel(admin, control_api, "Manages configurations via", "Admin UI")
+
+' User interactions to System
+Rel(user_iteraction, kafka, "Send events for control devices, get query from sensor and get result of scenarios", "MQTT")
+Rel(user_iteraction, profile_home, "Edit home profile", "HTTPS")
+Rel(user_iteraction, scenarios, "Edit scenarios of controling", "HTTPS")
+
+' Control system
+Rel(kafka, control_api, "Get events for control devices", "MQTT")
+Rel(kafka, telemetry, "Get gueries to telemetry", "MQTT")
+Rel(scenarios, kafka, "Send events to execute scenarios", "MQTT")
+
+' IoT 
+Rel(control_api, devices, "Send commands to controller", "HTTPS")
+Rel(telemetry, sensors, "Send query by value", "HTTPS")
+
+
+@enduml
