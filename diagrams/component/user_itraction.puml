@@ -1,0 +1,33 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Component Diagram for User Iteraction
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User", "Controls and monitors smart home devices")
+
+System_Boundary(SmartHomeSystem, "User iteraction") {
+    Container(api_gateway, "API Gateway", "Kong", "Routes requests to appropriate services")
+    
+    Container(home_profile, "Home Profile", , "list of devices and another information")
+    Container(scenarios, "Scenarios for smart home", "", "Scenarios for smart home")
+    
+    ContainerDb(home_profile_db, "Home Profile Database", "PostgreSQL", "Stores home configurations and user information")
+    ContainerDb(scenarios_db, "Scenarios Database", "PostgreSQL", "Stores scenarios of smart home")
+    
+}
+
+ContainerQueue(kafka, "Message broker", "Apache Kafka", "Real-time event streaming")
+
+' Relations
+Rel(user, api_gateway, "Controls devices via", "REST/HTTPS")
+Rel(api_gateway, home_profile, "Configures system via", "REST/HTTPS")
+Rel(api_gateway, scenarios, "Configures scenarios via", "REST/HTTPS")
+
+Rel(home_profile, home_profile_db, "Reads/Writes data")
+Rel(scenarios, scenarios_db, "Reads/Writes data")
+Rel(home_profile, kafka, "Send commands and events", "MQTT")
+Rel(scenarios, kafka, "Send commands", "MQTT")
+
+@enduml
