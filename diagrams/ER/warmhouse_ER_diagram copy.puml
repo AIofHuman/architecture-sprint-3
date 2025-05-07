@@ -1,0 +1,60 @@
+@startuml
+' Entities
+entity Student {
+  *student_id
+  --
+  name
+  email
+  phone
+  enrollment_date
+}
+
+entity Book {
+  *isbn
+  --
+  title
+  author_id
+  publication_year
+  genre
+}
+
+entity Author {
+  *author_id
+  --
+  name
+  nationality
+  birth_date
+}
+
+entity Address <<WEAK>> {
+  *student_id
+  *address_type
+  --
+  street
+  city
+  state
+  zip_code
+}
+
+entity Borrow {
+  *borrow_id
+  --
+  #student_id
+  #isbn
+  borrow_date
+  due_date
+  return_date
+}
+
+' Relationships
+Student ||--o{ Borrow : "makes"
+Borrow }o--|| Book : "borrows"
+
+Student ||--o{ Address : "has"
+
+Book }|..|{ Author : "written by"
+Book }o--|| AuthorBook : "lists"
+Author }o--|| AuthorBook : "contributes"
+
+
+@enduml

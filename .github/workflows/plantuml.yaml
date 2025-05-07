@@ -36,6 +36,7 @@ jobs:
         java -jar plantuml.jar -verbose diagrams/container/*.puml
         java -jar plantuml.jar -verbose diagrams/component/*.puml
         java -jar plantuml.jar -verbose diagrams/code/*.puml
+        java -jar plantuml.jar -verbose diagrams/ER/*.puml
     
     - name: Commit Diagrams
       run: |
