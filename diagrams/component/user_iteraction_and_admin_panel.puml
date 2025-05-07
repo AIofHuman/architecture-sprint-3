@@ -6,15 +6,16 @@ title Component Diagram for User Iteraction
 LAYOUT_WITH_LEGEND()
 
 Person(user, "User", "Controls and monitors smart home devices")
+Person(admin, "Admin", "Administrator of system")
 
 System_Boundary(SmartHomeSystem, "User iteraction") {
     Container(api_gateway, "API Gateway", "Kong", "Routes requests to appropriate services")
     
-    Container(home_profile, "Home Profile", , "list of devices and another information")
-    Container(scenarios, "Scenarios for smart home", "", "Scenarios for smart home")
+    Container(home_profile, "Home Profile", , "list of devices and scenarios")
+    Container(admin_panel, "Admin panel", , "web panel for administrator")
     
     ContainerDb(home_profile_db, "Home Profile Database", "PostgreSQL", "Stores home configurations and user information")
-    ContainerDb(scenarios_db, "Scenarios Database", "PostgreSQL", "Stores scenarios of smart home")
+    ContainerDb(services_db, "Service Database", "PostgreSQL", "Stores service configurations and informations")
     
 }
 
@@ -22,12 +23,14 @@ ContainerQueue(kafka, "Message broker", "Apache Kafka", "Real-time event streami
 
 ' Relations
 Rel(user, api_gateway, "Controls devices via", "REST/HTTPS")
+Rel(admin, api_gateway, "Administration of system", "REST/HTTPS")
 Rel(api_gateway, home_profile, "Configures system via", "REST/HTTPS")
-Rel(api_gateway, scenarios, "Configures scenarios via", "REST/HTTPS")
+Rel(api_gateway, admin_panel, "Configures system via", "REST/HTTPS")
 
 Rel(home_profile, home_profile_db, "Reads/Writes data")
-Rel(scenarios, scenarios_db, "Reads/Writes data")
+Rel(admin_panel, services_db, "Reads/Writes data")
+
 Rel(home_profile, kafka, "Send commands and events", "MQTT")
-Rel(scenarios, kafka, "Send commands", "MQTT")
+Rel(admin_panel, kafka, "Send commands and events", "MQTT")
 
 @enduml
