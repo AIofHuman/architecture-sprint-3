@@ -59,8 +59,9 @@ entity Scenario {
 ' Relationships
 User ||--o{ Home
 Home ||--o{ HomeProfile
+Device ||--|| HomeProfile
 Home ||--o{ Scenario
-TypeDevice }o--o{ HomeProfile
+TypeDevice ||--o{ Device
 HomeProfile }o--o{ Scenario
 
 @enduml
