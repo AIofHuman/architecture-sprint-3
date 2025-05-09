@@ -1,0 +1,23 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Component Diagram for Control API
+
+LAYOUT_WITH_LEGEND()
+
+ContainerQueue(kafka, "Message broker", "Apache Kafka", "Real-time event streaming")
+
+System_Boundary(SmartHomeSystem, "Control API") {
+    Container(control_api, "Control API", "", "Control devices")    
+    ContainerDb(control_api_db, "Control API database", "PostgreSQL", "Stores commands and result of execution")
+}
+
+System_Ext(devices, "Devices", "IoT devices")
+
+' Relations
+Rel(kafka, control_api, "Sends commands to device", "MTTQ")
+Rel(control_api, kafka, "Sends results of executions", "MTTQ")
+Rel(control_api, control_api_db, "Save commands and results of execution")
+Rel(control_api, devices, "Send commnand and get results", "REST/HTTPS")
+
+@enduml

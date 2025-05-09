@@ -1,0 +1,25 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Component Diagram for Telemetry
+
+LAYOUT_WITH_LEGEND()
+
+ContainerQueue(kafka, "Message broker", "Apache Kafka", "Real-time event streaming")
+
+System_Boundary(SmartHomeSystem, "Telemetry") {
+    Container(telemetry, "Telemetry", "", "Telemetry from devices and sensors")    
+    ContainerDb(telemetry_db, "Telemetry database", "PostgreSQL", "Stores values from devices and sensors")
+}
+
+System_Ext(devices, "Devices", "IoT devices")
+System_Ext(sensors, "Sensors", "IoT sensors")
+
+' Relations
+Rel(kafka, telemetry, "Sends commands to get telemetry", "MTTQ")
+Rel(telemetry, kafka, "Sends information about telemetry", "MTTQ")
+Rel(telemetry, telemetry_db, "Save/reads telemetry")
+Rel(telemetry, devices, "Get telemetry", "REST/HTTPS")
+Rel(telemetry, sensors, "Get telemetry", "REST/HTTPS")
+
+@enduml

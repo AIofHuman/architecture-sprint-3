@@ -1,0 +1,55 @@
+@startuml
+class User {
+    - id: Int
+    - created_date: Date
+    - email: String
+    - login: String
+    - password: String
+    - first_name: String
+    - second_name: String
+    - last_name: String
+    + user_info()
+}
+
+class Home {
+    - home_id: Int
+    - user_id: Int
+    - name: String
+    - adress: String
+    - is_archive: Boolean
+    + home_info(home_id: Int)
+}
+
+class TypeDevice {
+    - type_id: Int
+    - type_name: String
+    - module: String
+    - telemetry: String
+    + get_type_device_info(type_id: Int)
+}
+
+class HomeProfile {
+    - id: Int
+    - home_id: Int
+    - type_id: Int
+    - name: String
+    + get_home_devices_by_home_id(home_id: Int)
+    + get_home_devices_by_type_id(type_id: Int = None)
+}
+
+class Scenario {
+    - id: Int
+    - home_id: Int
+    - is_active: Boolean
+    - name: String
+    - sequence: String
+    + set_sequence(id: Int, sequence: String)
+    + get_sequence(id: Int)
+}
+
+User "1" --> "*" Home : user's homes
+TypeDevice "1" --> "*" HomeProfile : type devices on home
+Home "1" --> "*" HomeProfile : list devices on home
+Home "1" --> "*" Scenario : list of scenarios home
+
+@enduml

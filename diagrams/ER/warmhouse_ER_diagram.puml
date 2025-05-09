@@ -1,0 +1,67 @@
+@startuml
+' Entities
+entity User {
+  *user_id : Int
+  --
+  is_admin : Boolean
+  email : String
+  created_date: Date
+  login: String
+  password: String
+  first_name: String
+  second_name: String
+  last_name: String
+}
+
+entity Home {
+  *home_id : Int
+  --
+  user_id: Int
+  name: String
+  adress: String
+  is_archive: Boolean
+}
+
+entity TypeDevice {
+    *type_id : Int
+    --
+    type_name: String
+    module: Binary (driver)
+    telemetry: String (dict {param: unit})
+}
+
+entity Device {
+    *device_id: Int
+    --
+    type_id: Int
+    serial_muber: String
+    name: String
+}
+
+entity HomeProfile {
+    *id: Int
+    --
+    home_id: Int
+    device_id: Int
+    name: String
+}
+
+entity Scenario {
+    *id: Int
+    --
+    home_id: Int
+    home_profile_id: Int
+    is_active: Boolean
+    name: String
+    sequence: String (list commands)
+}
+
+' Relationships
+User ||--o{ Home
+Home ||--o{ HomeProfile
+Device ||--|| HomeProfile
+Home ||--o{ Scenario
+TypeDevice ||--o{ Device
+HomeProfile }o--o{ Scenario
+
+@enduml
