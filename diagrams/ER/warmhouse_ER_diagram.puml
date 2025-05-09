@@ -30,11 +30,19 @@ entity TypeDevice {
     telemetry: String (dict {param: unit})
 }
 
+entity Device {
+    *device_id: Int
+    --
+    type_id: Int
+    serial_muber: String
+    name: String
+}
+
 entity HomeProfile {
     *id: Int
     --
     home_id: Int
-    type_id: Int
+    device_id: Int
     name: String
 }
 

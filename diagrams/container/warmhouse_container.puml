@@ -9,9 +9,11 @@ Person(user, "User", "A user of the warmhouse service")
 Person(admin, "Administrator", "An administrator warmhouse service")
 
 System_Boundary(system, "Warmhome System") {
+    Container(api_gateway, "API Gateway", "Kong", "Routes requests to appropriate services")
     Container(user_iteraction, "User Iteraction", "", "Profile of home and scenarios")
     Container(admin_panel, "Admin Panel", "", "Manage users data")
     Container(control_api, "Control API", "", "Central control logic and event processing")
+    ContainerDb(home_profile_db, "Home Profile Database", "PostgreSQL", "Stores home configurations and user information")
     ContainerQueue(kafka, "Message broker", "Apache Kafka", "Real-time event streaming")
     Container(telemetry, "Telemetry", "", "Telemetry from controlers and sensors")
 }
@@ -20,9 +22,13 @@ System_Ext(devices, "Devices", "IoT devices")
 System_Ext(sensors, "Sensors", "IoT sensors")
 
 ' User interactions
-Rel(user, user_iteraction, "Send commands and get information to system", "HTTPS")
-Rel(admin, admin_panel, "Manage configurations via", "Admin Panel")
+Rel(user, api_gateway, "Authorization and routes requests to services", "HTTPS")
+Rel(admin, api_gateway, "Authorization and routes requests to services", "HTTPS")
+Rel(api_gateway, user_iteraction, "Send commands and get information to system", "HTTPS")
+Rel(api_gateway, admin_panel, "Manage configurations via", "Admin Panel")
 Rel(admin_panel, user_iteraction,  "Edit users data",  "HTTPS")
+Rel(admin_panel, home_profile_db, "Read/write data")
+Rel(user_iteraction, home_profile_db, "Read/write data")
 
 ' User interactions to System
 Rel(user_iteraction, kafka, "Send events for control devices, get query from sensor and get result of scenarios", "MQTT")
